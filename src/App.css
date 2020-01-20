@@ -56,7 +56,7 @@ header{
 
 .text-input{
   position: absolute;
-  width: 230px;
+  width: calc(100% - 45px);
   height: 30px;
   background: white;
   top: 5px;
@@ -83,4 +83,28 @@ header{
   position: absolute;
   left: 3px;
   top: 4px;
+}
+
+.messages{
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: scroll;
+  width: 100vw;
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  text-align: right;
+}
+
+.message-wrap{
+  width:100%;
+}
+.message{
+  color: black;
+  background:white;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 8px;
+  display: inline-block;
 }
