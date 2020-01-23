@@ -1,30 +1,49 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import UserPicker from './userPicker'
+import { db } from './db';
 
 function App() {
   const [messages, setMessages] = useState([])
+  const [name, setName] = useState('')
   
-  console.log(messages)
+  useEffect(()=>{
+    db.listen({
+      receive: m=> {
+        setMessages(current=> [m, ...current])
+      },
+      remove: id=> {
+        setMessages(current=> [...current].filter(m => m.id !== id))
+      },
+    })
+  },[])
+
   return <main>
 
+
     <header>
-      <img className="logo"
-        alt="logo"
-        src="https://www.salsify.com/hubfs/Salsify-Chat-Icon.png"
-      />
+      <div className="logo-wrap">
+        <img className="logo"
+          alt="logo"
+          src="https://www.salsify.com/hubfs/Salsify-Chat-Icon.png"
+        />
       Chatter
+      </div>
+      <UserPicker onSave={setName}/>
     </header>
 
     <div className="messages">
     {messages.map((m, i)=>{
       return <div key={i} className="message-wrap">
-        <div key={i} className="message">{m}</div>
+        <div key={i} className="message">{m.text}</div>
       </div>
     })}
     </div>
 
     <TextInput 
-      onSend={text=> {setMessages([text, ...messages])}} 
+      onSend={text=> db.send({
+        text, name, ts: new Date()
+      })} 
     />
 
   </main>
@@ -39,6 +58,12 @@ function TextInput(props){
     className="text-input"
     placeholder="Type your thoughts..."
     onChange = {e=> setText(e.target.value)}
+    onKeyPress={e=> {
+      if(e.key==='Enter') {
+        if(text) props.onSend(text)
+        setText('')
+      }
+    }}
     />
 
     <button onClick={()=> {

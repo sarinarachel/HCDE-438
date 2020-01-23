@@ -38,6 +38,12 @@ header{
   font-size: 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.logo-wrap{
+  display: flex;
+  justify-content: left;
 }
 
 .logo{
@@ -95,6 +101,8 @@ header{
   top: 40px;
   left: 0px;
   text-align: right;
+  word-break: break-all;
+  word-break: break-word;
 }
 
 .message-wrap{
@@ -107,4 +115,40 @@ header{
   margin: 5px;
   border-radius: 8px;
   display: inline-block;
+}
+
+.edit-username{
+  display: flex;
+  align-items: center;
+}
+
+.name-input{
+  height: 25px;
+  background: rgba(212, 212, 212, 0.5);
+  top: 5px;
+  left: 5px;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.name-button{
+  height: 30px;
+  width: 30px;
+  opacity: 90%;
+  border-radius: 5px;
+  margin-left: 5px;
+  border: none;
+  font-size: 18px;
+  padding: 4px;
+}
+
+.name-button:hover{
+  background: rgba(212, 212, 212, 0.5);
+}
+
+.username{
+  display: flex;
+  align-items: center;
+  font-size: 12 px;
 }
