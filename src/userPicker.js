@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import {FiEdit, FiSave} from 'react-icons/fi'
 
 function UserPicker(props) {
@@ -7,30 +7,42 @@ function UserPicker(props) {
     const inputEl = useRef(null)
   
     function save(){
-        inputEl.current.focus()
+        setTimeout(()=>{
+            inputEl.current.focus()
+          },50)
         if(name && !showName) {
             props.onSave(name)
+            localStorage.setItem('name',name)
         }
         setShowName(!showName)
     }
 
-  return <div className="edit-username">
-    <input value = {name} ref={inputEl}
+    useEffect(()=>{
+        const n = localStorage.getItem('name')
+        if(n) {
+          setName(n)
+          setTimeout(()=>{
+            save()
+          },50)
+        }
+      }, [])
+
+      return <div className="edit-username">
+      <input value={name} ref={inputEl}
         className="name-input"
         style={{display: showName ? 'none' : 'flex'}}
         onChange={e=> setName(e.target.value)}
         onKeyPress={e=> {
-            if(e.key==='Enter') save()
+          if(e.key==='Enter') save()
         }}
-     />
-
-    {showName && <div>{name}</div>}
-
-    <button onClick={save} className="name-button">
+      />
+  
+      {showName && <div>{name}</div>}
+  
+      <button onClick={save} className="name-button">
         {showName ? <FiEdit /> : <FiSave />}
-    </button>
-  </div>
-
-}
+      </button>
+    </div>
+  }
 
 export default UserPicker
